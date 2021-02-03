@@ -18,8 +18,8 @@ def get_price():
 
 
 def short_beep():
-    frequency_hz = 1000
-    duration_ms = 100
+    frequency_hz = 500
+    duration_ms = 500
     winsound.Beep(frequency_hz, duration_ms)
 
 
@@ -33,21 +33,20 @@ def wait_until_price_changes():
             return
 
         CHECK_COUNT += 1
-        if CHECK_COUNT % 8 == 0:
+        if CHECK_COUNT % 40 == 0:
             short_beep()
         sleep(15)
 
 
-def strong_beep():
-    frequency_hz = 2500
+def strong_beep(frequency_hz=2500):
     duration_ms = 1000
     winsound.Beep(frequency_hz, duration_ms)
     sleep(0.5)
 
 
-def beep_non_stop():
+def beep_non_stop(freq=None):
     while True:
-        strong_beep()
+        strong_beep(freq)
 
 
 if __name__ == '__main__':
@@ -60,4 +59,4 @@ if __name__ == '__main__':
         beep_non_stop()
     except Exception as e:
         traceback.print_exc()
-        beep_non_stop()
+        beep_non_stop(400)
