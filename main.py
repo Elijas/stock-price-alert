@@ -1,4 +1,5 @@
 import re
+import traceback
 import urllib.request as ur
 import winsound
 from datetime import datetime
@@ -26,14 +27,14 @@ def wait_until_price_changes():
     global CHECK_COUNT
     while True:
         price = get_price()
-        if not (90 <= price <= 110):
-            break
         print(f'{price} - {datetime.now().strftime("%H:%M:%S")}')
+
+        if not (90 <= price <= 110):
+            return
 
         CHECK_COUNT += 1
         if CHECK_COUNT % 8 == 0:
             short_beep()
-
         sleep(15)
 
 
@@ -49,7 +50,14 @@ def beep_non_stop():
         strong_beep()
 
 
-strong_beep()
-short_beep()
-wait_until_price_changes()
-beep_non_stop()
+if __name__ == '__main__':
+    # Test sound level
+    strong_beep()
+    short_beep()
+
+    try:
+        wait_until_price_changes()
+        beep_non_stop()
+    except Exception as e:
+        traceback.print_exc()
+        beep_non_stop()
