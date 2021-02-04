@@ -23,6 +23,10 @@ def short_beep():
     winsound.Beep(frequency_hz, duration_ms)
 
 
+def is_expected_price(price):
+    return 50 < price < 80
+
+
 def wait_until_price_changes():
     global CHECK_COUNT
     while True:
@@ -35,12 +39,12 @@ def wait_until_price_changes():
             continue
         print(f'{price} - {datetime.now().strftime("%H:%M:%S")}')
 
-        if not (90 <= price <= 110):
+        if not is_expected_price(price):
             return
 
         CHECK_COUNT += 1
-        if CHECK_COUNT % 40 == 0:
-            short_beep()
+        # if CHECK_COUNT % 40 == 0:
+        #     short_beep()
         sleep(15)
 
 
@@ -50,15 +54,13 @@ def strong_beep(frequency_hz=2500):
     sleep(0.5)
 
 
-def beep_non_stop(freq=None):
+def beep_non_stop(freq=2500):
     while True:
         strong_beep(freq)
 
 
 if __name__ == '__main__':
     # Test sound level
-    strong_beep(400)
-    strong_beep()
     short_beep()
 
     try:
