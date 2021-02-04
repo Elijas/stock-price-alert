@@ -26,7 +26,13 @@ def short_beep():
 def wait_until_price_changes():
     global CHECK_COUNT
     while True:
-        price = get_price()
+        try:
+            price = get_price()
+        except IndexError:
+            strong_beep(400)
+            strong_beep(400)
+            strong_beep(400)
+            continue
         print(f'{price} - {datetime.now().strftime("%H:%M:%S")}')
 
         if not (90 <= price <= 110):
@@ -51,6 +57,7 @@ def beep_non_stop(freq=None):
 
 if __name__ == '__main__':
     # Test sound level
+    strong_beep(400)
     strong_beep()
     short_beep()
 
